@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlaneShooter — Web 3D</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #87b5d6; font-family: system-ui, sans-serif; }
+      #app { position: fixed; inset: 0; }
+      canvas { display: block; }
+      .hud { position: fixed; z-index: 10; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.55); pointer-events: none; }
+      #fps { top: 10px; left: 12px; font: 600 14px/1.3 ui-monospace, monospace; }
+      #leftHud { top: 34px; left: 12px; font: 600 12px/1.4 ui-monospace, monospace; }
+      .barWrap { width: 170px; height: 9px; background: rgba(255,255,255,.22); border-radius: 4px; overflow: hidden; margin: 2px 0 6px; }
+      .bar { height: 100%; width: 100%; }
+      #healthBar { background: #57d977; }
+      #waveInfo { top: 10px; left: 50%; transform: translateX(-50%); font: 700 15px/1.4 ui-monospace, monospace; text-align: center; }
+      #status { top: 10px; right: 12px; text-align: right; font: 600 13px/1.5 ui-monospace, monospace; }
+      #status .barWrap { margin-left: auto; width: 150px; }
+      #boostBar { background: #ffd34d; }
+      #heatBar { background: #ff9a3d; width: 0%; }
+      #help { left: 12px; bottom: 10px; font-size: 12.5px; line-height: 1.5; opacity: .92; }
+      #crosshair { left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 20px; opacity: .8; }
+      #lockRing { left: 50%; top: 50%; width: 120px; height: 120px; transform: translate(-50%,-50%);
+        border: 2px dashed rgba(255,255,255,.0); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font: 700 12px ui-monospace, monospace; color: #ffd34d; transition: border-color .1s; }
+      #gameover { inset: 0; display: none; align-items: center; justify-content: center; background: rgba(8,18,28,.55); pointer-events: auto; }
+      #gameover .box { text-align: center; background: rgba(10,24,36,.85); padding: 28px 44px; border-radius: 12px; }
+      #gameover h1 { margin: 0 0 8px; font-size: 30px; }
+      #gameover p { margin: 0 0 18px; opacity: .9; }
+      #restartBtn { pointer-events: auto; font: 600 15px system-ui; padding: 10px 26px; border: 0; border-radius: 8px; background: #ffd34d; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div class="hud" id="fps">FPS: --</div>
+    <div class="hud" id="leftHud">HP<div class="barWrap"><div class="bar" id="healthBar"></div></div><span id="healthText">100 / 100</span></div>
+    <div class="hud" id="waveInfo">ĐỢT 1/3 • địch còn: - • 05:00</div>
+    <div class="hud" id="status">
+      <span id="spdLine">SPD: --</span><br/>BOOST
+      <div class="barWrap"><div class="bar" id="boostBar"></div></div>
+      NHIỆT SÚNG <span id="heatLabel"></span>
+      <div class="barWrap"><div class="bar" id="heatBar"></div></div>
+      <span id="mslLine">TÊN LỬA: 6 / 6</span>
+    </div>
+    <div class="hud" id="lockRing"></div>
+    <div class="hud" id="crosshair">+</div>
+    <div class="hud" id="help">
+      Chuột: lái &nbsp;•&nbsp; W/S: ga &nbsp;•&nbsp; A/D: liệng &nbsp;•&nbsp; Shift: tăng tốc<br/>
+      Chuột trái / RT: súng máy &nbsp;•&nbsp; Giữ địch trong vòng ngắm 1,5s để khóa, chuột phải / LB: bắn tên lửa
+    </div>
+    <div class="hud" id="gameover"><div class="box">
+      <h1 id="goTitle">THẮNG</h1><p id="goDetail"></p>
+      <button id="restartBtn">Chơi lại</button>
+    </div></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
