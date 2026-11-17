@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { GameFeature } from '../../core/GameFeature';
 import type { GameServices } from '../../core/GameServices';
+import { createHeightAt } from './heightField';
 
 /**
  * 0001 — Greybox world: sea, block islands, simple sky, lights,
@@ -17,18 +18,8 @@ export class GreyboxWorldFeature implements GameFeature {
     const { scene, config } = services;
     const w = config.world;
 
-    // Analytic height field: smooth bump per island, 0 at sea.
-    services.world.heightAt = (x, z) => {
-      let h = 0;
-      for (const isl of w.islands) {
-        const d = Math.hypot(x - isl.x, z - isl.z);
-        if (d < isl.radius) {
-          const t = 1 - d / isl.radius;
-          h = Math.max(h, isl.height * t * t);
-        }
-      }
-      return h;
-    };
+    // Analytic height field: smooth bump per island, 0 at sea (pure fn, unit-tested).
+    services.world.heightAt = createHeightAt(w.islands);
 
     // Sky: plain colour + fog (no skybox asset in greybox phase).
     scene.background = new THREE.Color(0x87b5d6);
