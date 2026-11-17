@@ -6,7 +6,7 @@ Nghe so sánh cũ/mới: `docs/art/audio-preview.html` (cột MỚI = file local
 
 ## Nguồn & giấy phép
 
-Toàn bộ từ **Freesound.org**, chỉ lấy **CC0 hoặc CC-BY** (đã kiểm tra trang từng âm; loại NC/ND). Ghi công CC-BY: Aegersum, juskiddink, DCElliott, qubodup (nhạc menu), X3nus — danh sách đầy đủ trong bảng dưới. Các nguồn được phép khác (Sonniss GDC, OpenGameArt, Kenney, Pixabay) đợt này **không cần dùng** vì Freesound đã đủ và chất lượng thu tốt hơn cho từng sự kiện cụ thể.
+Toàn bộ từ **Freesound.org**, chỉ lấy **CC0 hoặc CC-BY** (đã kiểm tra trang từng âm; loại NC/ND). Ghi công CC-BY: Aegersum, juskiddink, Artninja, DCElliott, qubodup (nhạc menu), X3nus — danh sách đầy đủ trong bảng dưới. Các nguồn được phép khác (Sonniss GDC, OpenGameArt, Kenney, Pixabay) đợt này **không cần dùng** vì Freesound đã đủ và chất lượng thu tốt hơn cho từng sự kiện cụ thể.
 
 Lưu ý kỹ thuật: bản gốc Freesound cần tài khoản mới tải được file gốc; đợt này dùng **bản preview HQ chính thức** của Freesound làm nguồn xử lý (đúng bản ghi đó, nén 128–160 kbps). Muốn bản WAV gốc thì đăng nhập và tải lại theo link trong bảng — giấy phép không đổi.
 
@@ -30,7 +30,7 @@ Lưu ý kỹ thuật: bản gốc Freesound cần tài khoản mới tải đư�
 | `missile_launch` | Phóng tên lửa | [M142 HIMARS Rocket Launch 8 — qubodup](https://freesound.org/people/qubodup/sounds/854476/) | CC0 | 2.6 | 2,6s đầu: kích hỏa + rít đi |
 | `explosion_large` | Nổ lớn (bomber/căn cứ/player) | [Nearby explosion with debris — juskiddink + lớp Deep Boom — Za-Games](https://freesound.org/people/juskiddink/sounds/108641/) | CC-BY + CC0 | 4.06 | Ghép 2 lớp: nổ có mảnh vỡ + boom trầm trễ 0,15s cho đuôi vang |
 | `explosion_small` | Nổ nhỏ (fighter/wreck) | [explosion_long_01 — derplayer](https://freesound.org/people/derplayer/sounds/587197/) | CC0 | 1.9 | Cắt 1,9s, fade đuôi |
-| `missile_hit` | Tên lửa nổ trúng đích | [heavy_explosion_sound_03 — Artninja](https://freesound.org/people/Artninja/sounds/826434/) | CC0 | 1.3 | 1,3s quanh đỉnh nổ |
+| `missile_hit` | Tên lửa nổ trúng đích | [heavy_explosion_sound_03 — Artninja](https://freesound.org/people/Artninja/sounds/826434/) | CC-BY 4.0 | 1.3 | 1,3s quanh đỉnh nổ |
 | `hit_impact` | Đạn trúng địch (hit marker) | [hit – metallic 01 — Anthousai](https://freesound.org/people/Anthousai/sounds/406562/) | CC0 | 0.4 | 0,4s |
 | `player_hurt` | Người chơi trúng đạn | [bullet ricochet — aust_paul + snd_metal_smash — gristi](https://freesound.org/people/aust_paul/sounds/30932/) | CC0 | 0.55 | Ghép rít đạn + va kim loại 0,55s |
 | `lock_beep_locking` | Bíp lúc đang khóa | [Missile Alert! — adh.dreaming](https://freesound.org/people/adh.dreaming/sounds/656060/) | CC0 | 0.14 | 1 bíp đầu 0,14s từ bản ghi cảnh báo thật |
