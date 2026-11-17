@@ -19,6 +19,12 @@
 - Commit nhỏ, 1 việc 1 commit, message Conventional Commits: `feat(flight): ...`, `fix(camera): ...`, `docs: ...`, `ci: ...`, `chore(core): ...`.
 - Trước khi push: `npm run build` phải pass; nếu có thay đổi hình ảnh, kèm screenshot trong `docs/screenshots/`.
 
+## Asset & model (phối hợp chat ASSET)
+- Mọi model GLB phải hướng mũi về **-Z** (chuẩn hướng bay của code), origin tại tâm máy bay.
+  Khi nạp model ngoài mà mũi khác hướng, bọc trong Group và xoay Group Y 180° — không sửa logic bay.
+- Điểm thay model duy nhất phía code: `createEnemyModel()` (địch) và world feature (player);
+  dữ liệu chiến đấu nằm trong AircraftEntity, không nằm trong model.
+
 ## Ranh giới
 - Không sửa `public/assets/`, `docs/art/` (chat ASSET phụ trách).
 - Không thêm dependency mới nếu Three.js/vanilla làm được; cần thêm thì ghi lý do vào `docs/decisions.md`.

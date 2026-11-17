@@ -27,6 +27,12 @@ Thứ tự update hiện tại: `world` (tĩnh) → `flight` (di chuyển máy b
 Input (đọc trực tiếp trạng thái phím/chuột/gamepad) → Flight cập nhật euler/tốc độ/vị trí →
 Camera tính vị trí mong muốn + damping + kẹp địa hình → HUD nhận event (FPS 2Hz, flight state 10Hz) → render.
 
+## Chiến đấu (Phase 2)
+`AircraftRegistry` (core/Aircraft.ts) giữ mọi máy bay: entity {id, kind, faction, group, health, alive, radius}.
+Đạn/tên lửa không trừ máu trực tiếp — chúng phát `combat:damage`, health feature (0006) áp dụng và phát
+`aircraft:destroyed`. Waves (0008) ra lệnh spawn qua `enemy:spawn`, AI (0007) tạo entity + điều khiển.
+HUD (0009) chỉ nghe event (`gun:state`, `missile:lock`, `wave:state`, `player:health`, `game:over`…).
+
 ## Mở rộng sau này
 Thêm tính năng = thêm thư mục `src/features/<tên>/` + 1 dòng register trong `main.ts` + hồ sơ `docs/features/<ID>-<tên>/`.
 Vũ khí/địch/âm thanh dự kiến đều đi theo đường này; asset thật do chat ASSET cung cấp qua `public/assets/`.
