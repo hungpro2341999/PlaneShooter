@@ -6,3 +6,9 @@
 4. **Màu ngụy trang trên model thử nằm ở vertex color (COLOR_0)** theo từng mặt (mảng ngụy trang + vệt bẩn), chưa có bộ texture PBR 2048 (Albedo/ORM/Normal) và chưa nén Draco/KTX2 — đó là bước production trong asset-plan mục 11/14, không giả vờ đã có.
 5. **Skybox/VFX thử vẽ bằng code** theo đúng palette ảnh mẫu (trời xám vàng, khói đen #2A2725, lõi nổ cam #FF6A1A) để code game đối chiếu trực tiếp với `src/effects.js`.
 6. **Ký hiệu hư cấu**: model thử không gắn cờ/quân hiệu thật; ký hiệu duy nhất là chevron trừu tượng trên vây đứng (theo ảnh mẫu) — thực hiện ở bước texture, bản GLB thử chưa gắn decal.
+
+## Lượt 2 — 18/11/2026
+- Skybox: chọn HDRI Poly Haven "wasteland_clouds_puresky" (CC0, pure-sky không dính mặt đất, hoàng hôn nhiều mây). Bản gốc sáng và lạnh nên tonemap Hable + giảm 1.25 stop + tăng ấm để khớp "chiều tà u ám xám vàng". Không vẽ cột khói vào sky theo đúng chỉ đạo — khói xa làm bằng particle sau.
+- PBR: định 1 UV layout dùng chung (top-view: thân giữa, cánh trái/phải, đuôi, bụng) rồi vẽ 2 bộ Albedo/ORM/Normal 2048 theo layout — ta xám xanh, địch nâu sa mạc + đỏ sẫm; ký hiệu hư cấu chevron đôi + mã VX-07, không quân hiệu thật. Albedo lưu JPG q88, ORM WebP q90, Normal PNG (bản PNG gốc 2.2–2.7MB làm push qua proxy đứt liên tục; bản nén còn <700KB, chất lượng đủ cho web).
+- Sketchfab: lọc được 5 ứng viên đạt chuẩn giấy phép (bảng trong sketchfab-shortlist.md); 3 tiêm kích cùng tác giả SIpriv nên style đồng nhất. Chờ token của chủ repo mới tải — token không lưu vào repo.
+- Nổ v2: sửa đúng 3 lỗi review — frame đầu cho cầu lửa bán kính lớn ngay, thêm texture speckle trong puff + mảnh vỡ, 4 frame cuối giữ khói đen đặc (alpha cao) thay vì trống. Flak bản đầu vẽ tia thẳng trông như dấu sao — đã bỏ, thay bằng cụm puff lệch tâm lổn nhổn và tự kiểm trên nền trời xám trước khi chốt.
