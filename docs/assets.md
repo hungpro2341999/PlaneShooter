@@ -20,3 +20,18 @@ Asset tự tạo của dự án phát hành **CC0 1.0**. Ảnh trong `docs/art/r
 
 ## Chưa có ở bộ thử (theo asset-plan)
 Texture PBR 2048 (Albedo/ORM/Normal) cho máy bay, nén Draco + KTX2, model ném bom/tàu/căn cứ 2 trạng thái, địa hình splatmap, khói đuôi tên lửa, decal ký hiệu hư cấu. Xem `docs/art/asset-plan.md` mục trạng thái.
+
+## Lượt 2 (18/11/2026) — sửa theo review
+
+| File | Nội dung | Nguồn / giấy phép |
+|---|---|---|
+| public/assets/textures/skybox_warzone_dusk_hdri.jpg (+ _4k.jpg) | Skybox equirect 2048×1024 + bản 4K, thay bản vẽ tay (đã xóa skybox_warzone_dusk.png) | HDRI **wasteland_clouds_puresky** của Poly Haven, **CC0**; tải qua api.polyhaven.com, tonemap Hable + chỉnh màu ấm xám vàng, giảm sáng −1.25 stop theo style guide; không vẽ khói vào sky (khói để particle sau) |
+| public/assets/textures/jet_player_albedo.jpg / jet_player_orm.webp / jet_player_normal.png | Bộ PBR 2048 máy bay ta: ngụy trang xám xanh, panel line, đinh tán, xước mép cánh, vệt dầu đuôi, ký hiệu hư cấu (chevron + mã VX-07) | Tự làm bằng code (PIL/numpy), CC0 của dự án; layout UV dùng chung với địch (xem docs/art/decisions.md) |
+| public/assets/textures/jet_enemy_albedo.jpg / jet_enemy_orm.webp / jet_enemy_normal.png | Bộ PBR 2048 địch: nâu sa mạc + điểm nhấn đỏ sẫm ở đuôi, cùng UV layout | Tự làm bằng code, CC0 của dự án |
+| public/assets/vfx/explosion_real_sheet.png | **Làm lại v2**: 16 frame đều có hình, frame đầu cầu lửa đã lớn, lửa cuộn 3 lớp có texture, mảnh vỡ viền nóng + tia lửa, cuối chuyển khói đen đặc không frame trống | Tự làm bằng code, CC0 |
+| public/assets/vfx/missile_contrail_sheet.png | MỚI: khói đuôi tên lửa trắng xám, puff đứt quãng, đầu nóng sáng, vệt dài dần theo frame | Tự làm bằng code, CC0 |
+| public/assets/vfx/flak_sheet.png | MỚI: cụm khói flak đen lổn nhổn, nở + tan, giữ đậm tới cuối | Tự làm bằng code, CC0 |
+| docs/art/sketchfab-shortlist.md | Danh sách 5 model Sketchfab (3 tiêm kích SIpriv CC-BY, ném bom Alkyon CC0, tàu Kongo CC-BY) kèm tris gốc — **chờ token** | Chỉ liệt kê, chưa tải |
+| docs/art/previews/vfx_v2_preview.png, skybox_hdri_preview.png, comparison_vs_reference.png | Preview lượt 2 + ảnh ghép so sánh trial hiện tại với ảnh tham chiếu | — |
+
+Giới hạn lượt 2 (nói thẳng): bộ PBR là texture theo UV layout chuẩn đã định (thân giữa, cánh 2 bên, bụng dưới) — model GLB trial hiện tại vẫn là vertex color, chưa có UV khớp layout này; khi model Sketchfab về sẽ unwrap theo layout này hoặc reskin trực tiếp. Chưa nén KTX2 cho texture (JPG/WebP/PNG hiện tại đều < 700KB/bản đồ).
