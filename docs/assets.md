@@ -12,11 +12,11 @@ Font chỉ là gợi ý trong `docs/art/style-guide.md` (Google Fonts, OFL), ch�
 | Concept máy bay ném bom | `docs/art/concepts/enemy_bomber.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Concept đảo ban ngày | `docs/art/concepts/island_day.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Concept đảo hoàng hôn | `docs/art/concepts/island_sunset.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
-| Model máy bay người chơi (GLB, ~208 tris, 9KB) | `public/assets/models/player_fighter.glb` | Tự dựng low-poly (trimesh) — xem decisions.md mục 2 | CC0 | PlaneShooter project |
-| Model tiêm kích địch (GLB, ~232 tris, 10KB) | `public/assets/models/enemy_fighter.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
-| Model máy bay ném bom (GLB, ~492 tris, 14KB) | `public/assets/models/enemy_bomber.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
-| Model căn cứ radar (GLB, ~164 tris, 7KB) | `public/assets/models/radar_base.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
-| Model tàu tuần tra (GLB, ~112 tris, 7KB) | `public/assets/models/ship.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
+| Model máy bay người chơi (GLB, 612 tris, 65KB, có chi tiết tiêm kích: cánh quét, 2 vây đứng, họng hút, tên lửa đầu cánh/dưới cánh) | `public/assets/models/player_fighter.glb` | Tự dựng low-poly (trimesh) — xem decisions.md mục 2 | CC0 | PlaneShooter project |
+| Model tiêm kích địch (GLB, ~232 tris, 29KB) | `public/assets/models/enemy_fighter.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
+| Model máy bay ném bom (GLB, ~492 tris, 51KB) | `public/assets/models/enemy_bomber.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
+| Model căn cứ radar (GLB, ~164 tris, 21KB) | `public/assets/models/radar_base.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
+| Model tàu tuần tra (GLB, ~112 tris, 16KB) | `public/assets/models/ship.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
 | Skybox ban ngày (equirect 2048×1024) | `public/assets/textures/skybox_day.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Skybox hoàng hôn (equirect 2048×1024) | `public/assets/textures/skybox_sunset.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Texture cát đảo 1024 | `public/assets/textures/island_sand.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
@@ -33,7 +33,8 @@ Font chỉ là gợi ý trong `docs/art/style-guide.md` (Google Fonts, OFL), ch�
 | Icon tên lửa 256, nền trong | `public/assets/ui/missile_icon.png` | Tách từ mockup HUD | CC0 | PlaneShooter project |
 
 ## Quy ước dùng trong code
-- Model GLB: mũi hướng **+Z**, 1 đơn vị = 1 mét, màu ở vật liệu (flat).
+- Model GLB: mũi hướng **-Z** (quy ước mới của dự án, khớp code Three.js), 1 đơn vị = 1 mét, normals phẳng (flat, geometry không index).
+- Màu của model nằm ở **vertex color (COLOR_0)**, KHÔNG phải material — material trong GLB là mặc định; muốn đổi màu thì sửa vertex color, đừng tìm material theo màu.
 - Skybox: nạp bằng `THREE.TextureLoader`, đặt `mapping = EquirectangularReflectionMapping`.
 - Sprite sheet VFX: lưới 4×4, chạy frame theo hàng từ trái sang phải, trên xuống dưới.
 - Nguồn ngoài (Kenney/Poly Pizza) đã thử nhưng không tải được từ máy build — chi tiết ở `docs/art/decisions.md` mục 2.

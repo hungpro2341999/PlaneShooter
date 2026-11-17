@@ -46,8 +46,8 @@ Quy tắc màu HUD: đỏ không dùng trang trí. Thấy đỏ = nguy hiểm th
 ## 2. Quy tắc low-poly
 - Model: mặt phẳng (flat shading), không bevel mềm, không normal map chi tiết. Mỗi model < 2MB GLB.
 - Ngân sách poly gợi ý: máy bay người chơi ≤ 3.000 tris, tiêm kích địch ≤ 2.000, ném bom ≤ 4.000, công trình/tàu ≤ 3.000.
-- Màu nằm ở vật liệu (vertex/PBR base color), không vẽ texture lên model máy bay.
-- 1 model = 1 file GLB, mũi máy bay hướng **+Z**, tâm ở giữa thân, đơn vị mét.
+- Màu nằm ở **vertex color (COLOR_0)** trong file GLB, không phải material/PBR và không vẽ texture lên model máy bay. Khi sửa màu: sửa vertex color.
+- 1 model = 1 file GLB, mũi máy bay hướng **-Z** (khớp quy ước Three.js của dự án), tâm ở giữa thân, đơn vị mét, normals phẳng (flat shading, geometry không index).
 - Texture môi trường: tối đa 2048px, ưu tiên 1024px, PNG (hoặc WebP khi code hỗ trợ).
 - Sprite UI/VFX: PNG nền trong suốt, lưới sprite sheet đều ô (4×4 cho nổ/khói).
 
