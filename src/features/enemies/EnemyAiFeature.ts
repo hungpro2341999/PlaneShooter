@@ -39,8 +39,8 @@ export class EnemyAiFeature implements GameFeature {
     this.projectiles = new ProjectileSystem(services.scene, services.aircraft, services.bus);
     this.unsubs.push(services.bus.on('enemy:spawn', ({ kind }) => this.spawn(kind)));
     // Being locked or targeted by a missile triggers evasion.
-    this.unsubs.push(services.bus.on('missile:lock', ({ targetId, progress }) => {
-      if (targetId && progress > 0.35) this.triggerEvade(targetId);
+    this.unsubs.push(services.bus.on('missile:lock', ({ targetId, locked }) => {
+      if (targetId && locked) this.triggerEvade(targetId); // evade once fully locked (spec 0007)
     }));
     this.unsubs.push(services.bus.on('missile:launched', ({ targetId }) => this.triggerEvade(targetId)));
   }

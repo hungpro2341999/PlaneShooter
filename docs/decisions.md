@@ -24,4 +24,4 @@ Các quyết định tự chọn tại chỗ chưa rõ (theo ủy quyền của 
 - D-013: Gamepad RT vừa là ga vừa là cò súng (chuẩn tay cầm game bay arcade thường dùng cò phải cho cả hai);
   chuột vẫn tách rõ: trái = súng, phải = tên lửa.
 - D-014: Vitest chốt bản 2.x vì bản mới nhất đòi peer vite ^6+ trong khi dự án dùng vite 5 — nâng cùng lúc khi nâng vite.
-- D-015: AI né khi lock progress > 0,35 (chưa cần khóa hoàn toàn) để người chơi cảm nhận được địch phản ứng sớm.
+- D-015: AI né khi đã bị khóa hoàn toàn hoặc có tên lửa đang đuổi (đúng spec 0007) — bản đầu né từ progress 0,35 làm khóa gần như không tới nơi khi chơi thử headless, đã sửa lại sau khi chơi thử Phase 2.
