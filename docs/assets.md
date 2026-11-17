@@ -19,11 +19,12 @@ Font chỉ là gợi ý trong `docs/art/style-guide.md` (Google Fonts, OFL), ch�
 | Model tàu tuần tra (GLB, ~112 tris, 16KB) | `public/assets/models/ship.glb` | Tự dựng low-poly (trimesh) | CC0 | PlaneShooter project |
 | Skybox ban ngày (equirect 2048×1024) | `public/assets/textures/skybox_day.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Skybox hoàng hôn (equirect 2048×1024) | `public/assets/textures/skybox_sunset.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
-| Texture cát đảo 1024 | `public/assets/textures/island_sand.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
-| Texture cỏ/rừng đảo 1024 | `public/assets/textures/island_grass.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
-| Texture đá đảo 1024 | `public/assets/textures/island_rock.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
-| Texture mặt nước 1024 | `public/assets/textures/water.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
+| Texture cát đảo 1024 (seamless, lát liền mạch) | `public/assets/textures/island_sand.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
+| Texture cỏ/rừng đảo 1024 (seamless) | `public/assets/textures/island_grass.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
+| Texture đá đảo 1024 (seamless) | `public/assets/textures/island_rock.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
+| Texture mặt nước 1024 (seamless) | `public/assets/textures/water.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Sprite sheet nổ 4×4, 1024 | `public/assets/vfx/explosion_sheet.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
+| Ảnh kiểm tra lát texture 2×2 | `docs/art/checks/textures_2x2_check.png` | Tự chụp từ 4 texture đã lát | CC0 | PlaneShooter project |
 | Sprite sheet khói 4×4, 1024 | `public/assets/vfx/smoke_sheet.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Mockup HUD | `docs/art/mockups/hud_mockup.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
 | Mockup menu chính | `docs/art/mockups/main_menu_mockup.png` | Tự vẽ (code) | CC0 | PlaneShooter project |
