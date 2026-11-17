@@ -3,6 +3,7 @@ import { EventBus, type GameEvents } from './EventBus';
 import type { GameFeature } from './GameFeature';
 import type { GameServices, WorldQueries } from './GameServices';
 import { Input } from './Input';
+import { AircraftRegistry } from './Aircraft';
 import { balance } from '../config/balance';
 
 /** Owns the renderer, the main loop and the feature list. Nothing gameplay-specific. */
@@ -36,6 +37,7 @@ export class Game {
       scene: this.scene, camera: this.camera, renderer: this.renderer,
       bus, input, config: balance, world,
       player: { group: null, speed: 0 },
+      aircraft: new AircraftRegistry(),
     };
     window.addEventListener('resize', this.onResize);
   }

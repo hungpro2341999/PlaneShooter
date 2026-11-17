@@ -2,6 +2,7 @@ import type * as THREE from 'three';
 import type { EventBus, GameEvents } from './EventBus';
 import type { Input } from './Input';
 import type { Balance } from '../config/balance';
+import type { AircraftRegistry } from './Aircraft';
 
 /** World queries any feature may need (implemented by the world feature). */
 export interface WorldQueries {
@@ -25,4 +26,6 @@ export interface GameServices {
   config: Balance;
   world: WorldQueries;
   player: PlayerRef;
+  /** Every aircraft in the sky (player + enemies), see core/Aircraft.ts. */
+  aircraft: AircraftRegistry;
 }
