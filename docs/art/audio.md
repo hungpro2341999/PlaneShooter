@@ -1,144 +1,56 @@
-# PlaneShooter — Bộ âm thanh (nhánh `asset/audio`)
+# PlaneShooter — Bộ âm thanh THU ÂM THẬT (nhánh `asset/audio-real`)
 
-Bộ file âm thanh hoàn chỉnh cho bản game hiện tại trên `main` (bản bash.tv:
-`src/audio.js` + `src/main.js`). **Chưa gắn vào game, không sửa code** — đây là
-asset độc lập để chat CODE tích hợp sau (xem mục "Cách gắn vào audio.js").
+Thay toàn bộ bộ synth cũ trên `asset/audio` bằng **tiếng thu âm thật** cho hợp style bán tả thực. **Giữ đúng 21 tên file + bảng ánh xạ sự kiện của bản cũ** để game thay thẳng; thêm 2 âm mới (`aa_gun_distant`, `war_ambience`). Chưa gắn vào game, không sửa code.
 
-Nghe thử tất cả: mở `docs/art/audio-preview.html` (bấm play từng file).
+Nghe so sánh cũ/mới: `docs/art/audio-preview.html` (cột MỚI = file local, cột CŨ = bản synth trên nhánh asset/audio).
 
-## Nguồn gốc & giấy phép
+## Nguồn & giấy phép
 
-- **Tự tổng hợp 100% bằng code** (Python + numpy/scipy, encode bằng ffmpeg):
-  không dùng sample ngoài, không nhạc có sẵn → **phát hành CC0 1.0**, ghi công
-  không bắt buộc. Script sinh: `make_audio.py` (lưu ngoài repo, chạy 2 pass:
-  synth → đo loudnorm → chỉnh gain nhạc về −16 LUFS → encode).
-- Âm sắc bám sát công thức procedural đang có trong `src/audio.js` (cùng tần
-  số, cùng sweep, cùng nhịp bíp) để khi thay file vào, game nghe "đúng chất"
-  như bản Web Audio hiện tại nhưng giàu và rõ hơn.
+Toàn bộ từ **Freesound.org**, chỉ lấy **CC0 hoặc CC-BY** (đã kiểm tra trang từng âm; loại NC/ND). Ghi công CC-BY: Aegersum, juskiddink, DCElliott, qubodup (nhạc menu), X3nus — danh sách đầy đủ trong bảng dưới. Các nguồn được phép khác (Sonniss GDC, OpenGameArt, Kenney, Pixabay) đợt này **không cần dùng** vì Freesound đã đủ và chất lượng thu tốt hơn cho từng sự kiện cụ thể.
 
-## Thông số chung (đã kiểm chứng bằng ffprobe + ffmpeg loudnorm)
+Lưu ý kỹ thuật: bản gốc Freesound cần tài khoản mới tải được file gốc; đợt này dùng **bản preview HQ chính thức** của Freesound làm nguồn xử lý (đúng bản ghi đó, nén 128–160 kbps). Muốn bản WAV gốc thì đăng nhập và tải lại theo link trong bảng — giấy phép không đổi.
 
-| Tiêu chí | Kết quả |
-|---|---|
-| Định dạng | Mỗi âm có **OGG (Vorbis)** + **MP3** dự phòng |
-| Sample rate | **44 100 Hz** tất cả 42 file |
-| Nhạc | **−16,0 LUFS** (menu) / **−16,0 LUFS** (combat), true peak ≤ −2,4 dB |
-| SFX | True peak ≤ **−1,1 dB** (không vỡ tiếng sau encode) |
-| Khoảng lặng đầu file | ≤ 4 ms (synth bắt đầu ngay, không cần trim thêm) |
-| Độ dài SFX | Tất cả < 2 s, trừ `explosion_large` 2,80 s (ngoại lệ được phép) |
-| Loop | 5 file loop liền mạch, đã đo seam: bước nhảy tại điểm nối nằm trong biên độ dốc tự nhiên của tín hiệu (không click) — xem mục Kiểm chứng |
-| **Tổng dung lượng** | **42 file = 1 599 353 byte ≈ 1,53 MiB** (giới hạn 5 MB) |
+## Thông số (đã kiểm chứng)
 
-## Bảng âm thanh → sự kiện trong game
+- 46 file (23 âm × OGG + MP3), tất cả **44 100 Hz**, tổng **3,22 MB** (< 8 MB).
+- Nhạc loudnorm về −16 LUFS: menu −15,1 / combat −15,7 LUFS, true peak ≤ −1,3 dB. SFX chuẩn hoá peak −1,5 dB, đồng đều giữa các file.
+- 6 file loop (engine, missile_lock_warning, low_health, music_menu, music_combat, war_ambience): crossfade tại điểm nối, đã đo bước nhảy mẫu ở seam — nằm trong dốc tự nhiên của tín hiệu, không click.
+- Xử lý: cắt đoạn tốt nhất theo RMS, fade đầu/cuối, ghép lớp cho nổ lớn và player_hurt, loudnorm riêng cho nhạc.
 
-"Âm lượng gợi ý" là gain khi phát (0–1) với master giữ như hiện tại; các file
-đã được chuẩn hoá peak đồng đều nên gain này chính là cân bằng nghe cuối.
-Cột "Hàm hiện tại" là method trong `src/audio.js` / điểm gọi trong
-`src/main.js` (main `b0ddd69`) mà file này thay thế hoặc bổ sung.
+## Bảng âm thanh → sự kiện → nguồn
 
-| File (`.ogg` + `.mp3`) | Sự kiện trong game | Hàm / điểm gọi hiện tại | Dài | Kênh | LUFS-I / TP (dB) | Âm lượng gợi ý | Loop | Nguồn / giấy phép |
-|---|---|---|---|---|---|---|---|---|---|
-| `engine_loop` | Động cơ khi đang bay; cao độ + độ lớn theo ga | `Sfx.engine(throttle, boost, active)`, gọi mỗi frame lúc `play` | 4,00 s | stereo | −7,5 / −1,6 | 0,30, tăng theo ga (xem dưới) | **Có** | Synth code, CC0 |
-| `boost` | Kích hoạt boost (Shift) | `Sfx.boost()` khi `boostEdge` | 0,90 s | mono | −13,8 / −1,5 | 0,70 | Không | Synth code, CC0 |
-| `gun` | Súng máy người chơi — **mỗi phát bắn** | `Sfx.gun()` trong `fireGun()` | 0,10 s | mono | —* / −1,6 | 0,55 / phát | Không | Synth code, CC0 |
-| `enemy_gun` | Súng máy địch (mờ dần theo khoảng cách < 700) | `Sfx.enemyGun(vol)` | 0,09 s | mono | —* / −3,1 | 0,40 × hệ số khoảng cách | Không | Synth code, CC0 |
-| `overheat` | Súng quá nhiệt (`heat >= 1`) | `Sfx.overheat()` | 0,70 s | mono | −17,6 / −1,1 | 0,60 | Không | Synth code, CC0 |
-| `missile_launch` | Phóng tên lửa (người chơi **và** địch) | `Sfx.missile()` tại 2 điểm gọi | 1,20 s | mono | −12,7 / −1,5 | 0,80 | Không | Synth code, CC0 |
-| `missile_hit` | Tên lửa phát nổ khi trúng đích / hết tầm | Hiện dùng chung `Sfx.explosion(vol)` khi tên lửa nổ | 0,80 s | mono | −19,7 / −2,2 | 0,85 × hệ số khoảng cách | Không | Synth code, CC0 |
-| `explosion_large` | Nổ lớn: hạ oanh tạc cơ, căn cứ trúng đòn nặng, người chơi bị hạ | `Sfx.explosion(1)` / `explosion(vol)` cho bomber + base + player | 2,80 s | stereo | −16,9 / −1,5 | 1,00 × hệ số khoảng cách | Không | Synth code, CC0 |
-| `explosion_small` | Nổ nhỏ: hạ tiêm kích, xác máy bay chạm đất/nước | `Sfx.explosion(vol)` cho fighter + wreck | 1,10 s | stereo | −18,0 / −1,9 | 0,80 × hệ số khoảng cách | Không | Synth code, CC0 |
-| `hit_impact` | Đạn người chơi trúng địch (kèm hit marker) | `Sfx.hit()`, gọi với xác suất 0,4 như code hiện tại | 0,08 s | mono | —* / −1,5 | 0,35 | Không | Synth code, CC0 |
-| `player_hurt` | Người chơi trúng đạn địch | `Sfx.hurt()` trong `damagePlayer()` | 0,28 s | mono | —* / −1,7 | 0,80 | Không | Synth code, CC0 |
-| `lock_beep_locking` | Bíp nhịp trong lúc đang khóa (mỗi nấc 20% tiến độ) | `Sfx.lockTick()` khi `lock.p` tăng qua nấc | 0,06 s | mono | —* / −2,6 | 0,30 | Không | Synth code, CC0 |
-| `lock_beep_locked` | Bíp dài khi khóa xong (`lock.p >= 1`) | `Sfx.locked()` | 0,50 s | mono | −3,9 / −2,7 | 0,35 | Không | Synth code, CC0 |
-| `missile_lock_warning` | Còi **MISSILE LOCK**: tên lửa địch đang bám theo người chơi | `Sfx.warning(mode=2)` — bíp nhanh 0,16 s/lần trong audio.js | 1,28 s | mono | −7,4 / −1,3 | 0,40 | **Có** | Synth code, CC0 |
-| `low_health` | **MỚI** — cảnh báo máu thấp (đề xuất: HP ≤ 30%) | Chưa có trong code; đề xuất điểm gắn ở mục dưới | 1,60 s | mono | −17,0 / −2,5 | 0,50 | **Có** | Synth code, CC0 |
-| `wave_start` | Bắt đầu đợt địch mới (banner "ĐỢT n") | `Sfx.wave()` trong `startWave()` | 0,60 s | mono | −10,5 / −2,5 | 0,70 | Không | Synth code, CC0 |
-| `win` | **MỚI** — thắng trận (màn hình kết quả CHIẾN THẮNG) | Chưa có; đề xuất gọi trong `endGame(true)` | 1,90 s | mono | −15,5 / −2,1 | 0,80 | Không | Synth code, CC0 |
-| `lose` | **MỚI** — thua trận (bị bắn hạ / mất căn cứ / hết giờ) | Chưa có; đề xuất gọi trong `endGame(false)` | 1,90 s | mono | −14,8 / −2,0 | 0,80 | Không | Synth code, CC0 |
-| `ui_click` | Bấm mọi nút UI (Start, Hướng dẫn, Tiếp tục…) | `Sfx.ui()` qua helper `click()` | 0,07 s | mono | —* / −2,9 | 0,50 | Không | Synth code, CC0 |
-| `music_menu` | **MỚI** — nhạc nền menu / hướng dẫn / kết quả | Chưa có nhạc trong code | 16,00 s | stereo | **−16,0** / −7,7 | 0,50 | **Có** | Synth code, CC0 |
-| `music_combat` | **MỚI** — nhạc nền khi đang chiến đấu | Chưa có nhạc trong code | 16,00 s | stereo | **−16,0** / −2,4 | 0,55 | **Có** | Synth code, CC0 |
+| File | Sự kiện | Nguồn (Freesound) | Giấy phép | Dài (s) | Ghi chú xử lý |
+|---|---|---|---|---|---|
+| `engine_loop` | Động cơ bay (loop, chỉnh rate theo ga) | [F16 fighter jet start up — ikbenraar](https://freesound.org/people/ikbenraar/sounds/322178/) | CC0 | 6.0 | Lấy đoạn turbine ổn định nhất (từ 11,3s), crossfade loop 6s |
+| `boost` | Kích hoạt đốt sau | [Afterburner (Close, Screamer) — JSK_Productions](https://freesound.org/people/JSK_Productions/sounds/829068/) | CC0 | 2.4 | Đoạn gầm mạnh nhất 2,4s, fade đuôi |
+| `gun` | Súng máy người chơi / phát | [Navy MK 15 Phalanx CIWS Anti-Air Fast Burst — qubodup](https://freesound.org/people/qubodup/sounds/163119/) | CC0 | 0.5 | Cắt 0,5s từ loạt CIWS thật — tiếng rotary cannon đúng chất Vulcan |
+| `enemy_gun` | Súng máy địch ở xa | [Distant Machine Gun Firing — qubodup](https://freesound.org/people/qubodup/sounds/854635/) | CC0 | 1.1 | Nguyên đoạn 1,1s |
+| `aa_gun_distant` | **MỚI** — pháo phòng không xa | [Cannon artillery – distant gunshots — Aegersum](https://freesound.org/people/Aegersum/sounds/345844/) | CC-BY | 3.1 | Đoạn 3,1s quanh phát bắn rõ nhất, fade đuôi dài |
+| `overheat` | Súng quá nhiệt | [steam_burst — pengo_au](https://freesound.org/people/pengo_au/sounds/90143/) | CC0 | 0.93 | Xì hơi 0,93s |
+| `missile_launch` | Phóng tên lửa | [M142 HIMARS Rocket Launch 8 — qubodup](https://freesound.org/people/qubodup/sounds/854476/) | CC0 | 2.6 | 2,6s đầu: kích hỏa + rít đi |
+| `explosion_large` | Nổ lớn (bomber/căn cứ/player) | [Nearby explosion with debris — juskiddink + lớp Deep Boom — Za-Games](https://freesound.org/people/juskiddink/sounds/108641/) | CC-BY + CC0 | 4.06 | Ghép 2 lớp: nổ có mảnh vỡ + boom trầm trễ 0,15s cho đuôi vang |
+| `explosion_small` | Nổ nhỏ (fighter/wreck) | [explosion_long_01 — derplayer](https://freesound.org/people/derplayer/sounds/587197/) | CC0 | 1.9 | Cắt 1,9s, fade đuôi |
+| `missile_hit` | Tên lửa nổ trúng đích | [heavy_explosion_sound_03 — Artninja](https://freesound.org/people/Artninja/sounds/826434/) | CC0 | 1.3 | 1,3s quanh đỉnh nổ |
+| `hit_impact` | Đạn trúng địch (hit marker) | [hit – metallic 01 — Anthousai](https://freesound.org/people/Anthousai/sounds/406562/) | CC0 | 0.4 | 0,4s |
+| `player_hurt` | Người chơi trúng đạn | [bullet ricochet — aust_paul + snd_metal_smash — gristi](https://freesound.org/people/aust_paul/sounds/30932/) | CC0 | 0.55 | Ghép rít đạn + va kim loại 0,55s |
+| `lock_beep_locking` | Bíp lúc đang khóa | [Missile Alert! — adh.dreaming](https://freesound.org/people/adh.dreaming/sounds/656060/) | CC0 | 0.14 | 1 bíp đầu 0,14s từ bản ghi cảnh báo thật |
+| `lock_beep_locked` | Bíp khóa xong | [Missile Alert! — adh.dreaming](https://freesound.org/people/adh.dreaming/sounds/656060/) | CC0 | 0.5 | Đoạn 0,5s |
+| `missile_lock_warning` | Còi tên lửa địch bám (loop) | [Mini Airplane Alarm — CaptainBusiness67](https://freesound.org/people/CaptainBusiness67/sounds/342099/) | CC0 | 1.28 | Chu kỳ alarm 1,28s, crossfade loop |
+| `low_health` | Cảnh báo máu thấp (loop) | [Mini Airplane Alarm — CaptainBusiness67](https://freesound.org/people/CaptainBusiness67/sounds/342099/) | CC0 | 1.6 | Đoạn alarm khác, loop 1,6s |
+| `wave_start` | Bắt đầu đợt địch | [Dramatic Reveal Rising Brass — Qvantor](https://freesound.org/people/Qvantor/sounds/879278/) | CC0 | 0.9 | Đoạn brass dâng + điểm rơi 0,9s (stereo) |
+| `win` | Thắng trận | [Victory Fanfare — Qvantor](https://freesound.org/people/Qvantor/sounds/878608/) | CC0 | 2.8 | 2,8s đầu |
+| `lose` | Thua trận | [Dark Crescendo 3 — nomiqbomi](https://freesound.org/people/nomiqbomi/sounds/578577/) | CC0 | 3.0 | 3,0s |
+| `ui_click` | Bấm nút UI | [Toggle_Switch — DCElliott](https://freesound.org/people/DCElliott/sounds/386424/) | CC-BY | 0.12 | 1 click công tắc thật 0,12s |
+| `music_menu` | Nhạc menu (loop) | [Cinematic Tension Loop Of Epic Proportions — qubodup](https://freesound.org/people/qubodup/sounds/860590/) | CC-BY 4.0 | ? | Loop 8,5s crossfade, loudnorm −16 LUFS (đo −15,1) |
+| `music_combat` | Nhạc chiến đấu (loop) | [ww2_1945_action_loop — X3nus](https://freesound.org/people/X3nus/sounds/565185/) | CC-BY | ? | Đoạn căng nhất 32s (từ 63s), crossfade loop, −15,7 LUFS |
+| `war_ambience` | **MỚI** — nền chiến trường (loop) | [Strong Wind — keirofinch + Very Distant Explosion — Opticreep + Distant Boom — Henrythetrain](https://freesound.org/people/keirofinch/sounds/376534/) | CC0 | ? | Gió cao 16s loop + 3 tiếng nổ xa thưa, −21 LUFS (nền yên) |
 
-\* File ngắn hơn ~0,4 s nên bộ đo LUFS theo chuẩn BS.1770 không cho số
-integrated (gating) — mức nghe được kiểm soát bằng true peak và RMS khi synth.
+## Ánh xạ vào game
 
-### Ghi chú theo âm
-
-- **Động cơ đổi cao độ theo ga:** `engine_loop` thu ở ga giữa. Khi gắn vào,
-  đặt `playbackRate = 0.82 + throttle × 0.5 + (boost ? 0.22 : 0)` và
-  `gain = 0.18 + throttle × 0.22 + (boost ? 0.10 : 0)` — tương đương dải tần
-  55–165 Hz mà `Sfx.engine()` đang quét. Loop 4 s dựng từ dao động nguyên chu
-  kỳ + noise tuần hoàn nên đổi rate không phá điểm nối.
-- **Súng máy phát nhanh liên tục:** `gun` là 1 phát 0,10 s. Code hiện gọi
-  `sfx.gun()` theo từng phát (nhịp bắn của game) — giữ nguyên cách gọi đó,
-  mỗi lần phát tạo 1 voice mới (chồng tiếng được). Không loop file này.
-- **Cảnh báo bị khóa 2 mức:** mức 1 "đang bị bám" (`warning(mode=1)`, bíp
-  chậm 0,6 s) → phát `lock_beep_locking` theo nhịp 0,6 s; mức 2 "tên lửa
-  đang lao tới" (`mode=2`) → loop `missile_lock_warning`.
-- **Nhạc:** menu = pad Am–F–C–G êm, 16 s; combat = 120 BPM, Dm–B♭–F–C, có
-  kick/bass/hat synth, 16 s = đúng 8 ô nhịp nên loop khớp nhịp.
-
-## Cách gắn vào `audio.js` sau này (cho chat CODE — chưa áp dụng)
-
-Giữ nguyên class `Sfx` làm fallback, thêm lớp phát file bên cạnh:
-
-```js
-// 1) Bảng file (OGG trước, MP3 dự phòng — trình duyệt tự chọn qua canPlayType)
-const FILES = {
-  engine: 'engine_loop', boost: 'boost', gun: 'gun', enemyGun: 'enemy_gun',
-  overheat: 'overheat', missile: 'missile_launch', missileHit: 'missile_hit',
-  explosionL: 'explosion_large', explosionS: 'explosion_small',
-  hit: 'hit_impact', hurt: 'player_hurt', lockTick: 'lock_beep_locking',
-  locked: 'lock_beep_locked', warning: 'missile_lock_warning',
-  lowHealth: 'low_health', wave: 'wave_start', win: 'win', lose: 'lose',
-  ui: 'ui_click', musicMenu: 'music_menu', musicCombat: 'music_combat',
-};
-const BASE = 'assets/audio/'; // public/assets/audio -> served at /assets/audio/
-
-// 2) Nạp trước bằng Web Audio (decode 1 lần, phát nhiều voice chồng nhau được)
-async function loadBank(ctx) {
-  const ext = new Audio().canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'mp3';
-  const bank = {};
-  await Promise.all(Object.entries(FILES).map(async ([k, name]) => {
-    const buf = await (await fetch(`${BASE}${name}.${ext}`)).arrayBuffer();
-    bank[k] = await ctx.decodeAudioData(buf);
-  }));
-  return bank;
-}
-
-// 3) Phát 1 shot: play(bank.gun, { vol: 0.55 }) — tạo BufferSource + Gain mỗi lần.
-//    Loop (engine / warning / lowHealth / music): giữ 1 BufferSource loop=true,
-//    start/stop theo trạng thái; engine chỉnh playbackRate + gain mỗi frame
-//    thay cho Sfx.engine() hiện tại.
-//    Nhạc: crossfade gain 1.5 s khi đổi state menu <-> play.
-```
-
-Ánh xạ thay thế 1-1 với method cũ: `gun→gun()`, `enemyGun→enemyGun()`,
-`missile→missile()`, `lockTick→lockTick()`, `locked→locked()`, `ui→ui()`,
-`overheat→overheat()`, `wave→wave()`, `boost→boost()`, `hit→hit()`,
-`hurt→hurt()`, `explosion(vol)` → chọn `explosion_large` (bomber/base/player)
-hoặc `explosion_small` (fighter/wreck) theo `vol`/loại mục tiêu, riêng tên lửa
-nổ dùng `missile_hit`. Ba âm **mới** cần thêm điểm gọi: `low_health` (bật loop
-khi `player.hp <= 0.3 × playerHp`, tắt khi hồi trên ngưỡng), `win`/`lose`
-trong `endGame(win)`, nhạc trong vòng đổi state (`toMenu/startGame/showResult`).
-
-## Kiểm chứng đã làm
-
-- ffprobe từng file: đúng 44 100 Hz, đúng số kênh, decode không lỗi (cả 42).
-- Loudness: nhạc đo lại sau encode = −16,00 / −15,98 LUFS; mọi SFX true peak
-  ≤ −1,1 dB (đợt đầu có 2 file TP −0,3/−0,4 sau encode → đã hạ peak master
-  và encode lại).
-- Loop: đo bước nhảy mẫu tại điểm nối so với các bước kề ±100 ms cho cả 5
-  file loop — điểm nối nằm trong dốc tự nhiên của tín hiệu, không click;
-  `missile_lock_warning` và `low_health` nối tại điểm im lặng (jump = 0).
-- Trang nghe thử `audio-preview.html` dùng đúng file thật trong
-  `public/assets/audio/`.
+Giữ nguyên bảng ánh xạ `FILES` và cách gắn ở bản cũ (xem git history của file này trên nhánh `asset/audio`): 21 tên file không đổi nên `src/audio.js` chỉ cần trỏ sang bộ file này. Hai âm mới cần điểm gọi thêm: `aa_gun_distant` — phát ngẫu nhiên xa khi gần tàu/căn cứ có phòng không; `war_ambience` — loop nền trong lúc `play`, gain ~0,25, phát cùng `engine_loop`.
 
 ## Chưa làm được / giới hạn
 
-- Chưa nghe bằng tai người trong trình duyệt thật — kiểm chứng bằng số đo
-  (loudness, peak, seam, phổ) và trang preview để user nghe duyệt.
-- Chưa gắn vào game (đúng phạm vi việc): `src/audio.js` vẫn là bản procedural.
-- LUFS của các file < 0,4 s không đo được theo BS.1770 (giới hạn của chuẩn đo,
-  không phải lỗi file).
+- Chưa nghe bằng tai người trong trình duyệt thật — kiểm chứng bằng số đo (loudness, peak, seam) + trang preview để chủ repo nghe duyệt.
+- Nguồn là preview HQ của Freesound (xem lưu ý trên); 2 âm nhạc là bản ghi/biểu diễn của cộng đồng, không phải dàn nhạc thu studio — nếu cần chất lượng phòng thu thì bước tiếp theo là lấy WAV gốc hoặc đặt hàng riêng.
+- Chưa gắn vào game (đúng phạm vi): việc tích hợp thuộc chat CODE.

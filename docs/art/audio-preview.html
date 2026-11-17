@@ -1,213 +1,29 @@
-<!doctype html>
-<html lang="vi">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PlaneShooter — Audio Preview</title>
-<style>
-  body { background:#0b2236; color:#dff3ff; font-family:system-ui,sans-serif; margin:24px; }
-  h1 { font-size:20px; letter-spacing:2px; } .sub { color:#8fd8ef; margin-bottom:20px; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
-  .card { background:#10293f; border:1px solid #1d4b66; border-radius:10px; padding:14px; }
-  .card h3 { margin:0 0 4px; font-size:15px; color:#5fd8ff; }
-  .card p { margin:4px 0 10px; font-size:13px; color:#bfe6f5; }
-  .card .meta { color:#7fb6cc; font-size:12px; margin-top:8px; }
-  audio { width:100%; }
-</style>
-</head>
-<body>
-<h1>PLANESHOOTER — BỘ ÂM THANH (asset/audio)</h1>
-<p class="sub">21 âm thanh × 2 định dạng (OGG + MP3), 44.1 kHz, tổng 1561 KB. Bấm play để nghe thử từng file; các file LOOP đã bật sẵn chế độ lặp. Chi tiết: xem audio.md cùng thư mục.</p>
-<div class="grid">
-<section class="card">
-  <h3>engine_loop · LOOP</h3>
-  <p>Động cơ — loop khi đang bay (engine)</p>
-  <audio controls preload="metadata" loop>
-    <source src="../../public/assets/audio/engine_loop.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/engine_loop.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">4.00s · 2ch · LUFS -7.52 · TP -1.61 dB · OGG 54 KB / MP3 63 KB</p>
-</section>
-<section class="card">
-  <h3>boost</h3>
-  <p>Boost (Shift)</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/boost.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/boost.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.90s · 1ch · LUFS -13.8 · TP -1.52 dB · OGG 11 KB / MP3 11 KB</p>
-</section>
-<section class="card">
-  <h3>gun</h3>
-  <p>Súng máy người chơi — mỗi phát bắn</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/gun.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/gun.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.10s · 1ch · LUFS -inf · TP -1.57 dB · OGG 4 KB / MP3 1 KB</p>
-</section>
-<section class="card">
-  <h3>enemy_gun</h3>
-  <p>Súng máy địch (giảm theo khoảng cách)</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/enemy_gun.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/enemy_gun.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.09s · 1ch · LUFS -inf · TP -3.08 dB · OGG 4 KB / MP3 1 KB</p>
-</section>
-<section class="card">
-  <h3>overheat</h3>
-  <p>Súng quá nhiệt</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/overheat.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/overheat.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.70s · 1ch · LUFS -17.62 · TP -1.1 dB · OGG 9 KB / MP3 8 KB</p>
-</section>
-<section class="card">
-  <h3>missile_launch</h3>
-  <p>Phóng tên lửa (người chơi + địch)</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/missile_launch.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/missile_launch.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">1.20s · 1ch · LUFS -12.7 · TP -1.49 dB · OGG 13 KB / MP3 14 KB</p>
-</section>
-<section class="card">
-  <h3>missile_hit</h3>
-  <p>Tên lửa phát nổ khi trúng / bị phá</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/missile_hit.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/missile_hit.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.80s · 1ch · LUFS -19.7 · TP -2.23 dB · OGG 9 KB / MP3 10 KB</p>
-</section>
-<section class="card">
-  <h3>explosion_large</h3>
-  <p>Nổ lớn — oanh tạc cơ, căn cứ, người chơi bị hạ</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/explosion_large.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/explosion_large.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">2.80s · 2ch · LUFS -16.86 · TP -1.46 dB · OGG 39 KB / MP3 44 KB</p>
-</section>
-<section class="card">
-  <h3>explosion_small</h3>
-  <p>Nổ nhỏ — tiêm kích, xác máy bay rơi</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/explosion_small.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/explosion_small.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">1.10s · 2ch · LUFS -17.97 · TP -1.87 dB · OGG 16 KB / MP3 18 KB</p>
-</section>
-<section class="card">
-  <h3>hit_impact</h3>
-  <p>Đạn trúng địch (hit marker)</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/hit_impact.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/hit_impact.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.08s · 1ch · LUFS -inf · TP -1.47 dB · OGG 4 KB / MP3 1 KB</p>
-</section>
-<section class="card">
-  <h3>player_hurt</h3>
-  <p>Người chơi trúng đạn</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/player_hurt.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/player_hurt.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.28s · 1ch · LUFS -inf · TP -1.74 dB · OGG 6 KB / MP3 4 KB</p>
-</section>
-<section class="card">
-  <h3>lock_beep_locking</h3>
-  <p>Bíp trong lúc đang khóa mục tiêu</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/lock_beep_locking.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/lock_beep_locking.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.06s · 1ch · LUFS -inf · TP -2.57 dB · OGG 3 KB / MP3 1 KB</p>
-</section>
-<section class="card">
-  <h3>lock_beep_locked</h3>
-  <p>Bíp dài khi đã khóa xong</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/lock_beep_locked.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/lock_beep_locked.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.50s · 1ch · LUFS -3.85 · TP -2.67 dB · OGG 4 KB / MP3 6 KB</p>
-</section>
-<section class="card">
-  <h3>missile_lock_warning · LOOP</h3>
-  <p>Còi MISSILE LOCK — loop khi tên lửa địch bám theo</p>
-  <audio controls preload="metadata" loop>
-    <source src="../../public/assets/audio/missile_lock_warning.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/missile_lock_warning.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">1.28s · 1ch · LUFS -7.41 · TP -1.29 dB · OGG 10 KB / MP3 15 KB</p>
-</section>
-<section class="card">
-  <h3>low_health · LOOP</h3>
-  <p>Máu thấp (HP ≤ 30%) — loop</p>
-  <audio controls preload="metadata" loop>
-    <source src="../../public/assets/audio/low_health.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/low_health.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">1.60s · 1ch · LUFS -17.02 · TP -2.49 dB · OGG 6 KB / MP3 19 KB</p>
-</section>
-<section class="card">
-  <h3>wave_start</h3>
-  <p>Bắt đầu đợt địch mới</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/wave_start.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/wave_start.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.60s · 1ch · LUFS -10.46 · TP -2.53 dB · OGG 6 KB / MP3 7 KB</p>
-</section>
-<section class="card">
-  <h3>win</h3>
-  <p>Thắng trận</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/win.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/win.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">1.90s · 1ch · LUFS -15.48 · TP -2.09 dB · OGG 19 KB / MP3 23 KB</p>
-</section>
-<section class="card">
-  <h3>lose</h3>
-  <p>Thua trận</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/lose.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/lose.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">1.90s · 1ch · LUFS -14.84 · TP -2.04 dB · OGG 17 KB / MP3 23 KB</p>
-</section>
-<section class="card">
-  <h3>ui_click</h3>
-  <p>Bấm nút UI</p>
-  <audio controls preload="metadata">
-    <source src="../../public/assets/audio/ui_click.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/ui_click.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">0.07s · 1ch · LUFS -inf · TP -2.9 dB · OGG 3 KB / MP3 1 KB</p>
-</section>
-<section class="card">
-  <h3>music_menu · LOOP</h3>
-  <p>Nhạc menu — loop</p>
-  <audio controls preload="metadata" loop>
-    <source src="../../public/assets/audio/music_menu.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/music_menu.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">16.00s · 2ch · LUFS -16.0 · TP -7.66 dB · OGG 191 KB / MP3 313 KB</p>
-</section>
-<section class="card">
-  <h3>music_combat · LOOP</h3>
-  <p>Nhạc chiến đấu — loop</p>
-  <audio controls preload="metadata" loop>
-    <source src="../../public/assets/audio/music_combat.ogg" type="audio/ogg">
-    <source src="../../public/assets/audio/music_combat.mp3" type="audio/mpeg">
-  </audio>
-  <p class="meta">16.00s · 2ch · LUFS -15.98 · TP -2.43 dB · OGG 215 KB / MP3 313 KB</p>
-</section>
-</div>
-</body>
-</html>
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>PlaneShooter — Nghe thử âm thanh: bản THU THẬT vs bản synth cũ</title>
+<style>body{font-family:system-ui;background:#101418;color:#dfe6ec;margin:24px}table{border-collapse:collapse}td,th{border:1px solid #2c3944;padding:6px 10px}audio{height:32px}</style></head>
+<body><h1>Âm thanh PlaneShooter — bản thu âm thật (asset/audio-real) vs bản synth cũ (asset/audio)</h1>
+<p>Cột MỚI phát file trong <code>public/assets/audio/</code> của nhánh này. Cột CŨ phát bản synth trên nhánh <code>asset/audio</code> qua GitHub (cần mạng). Chi tiết nguồn + giấy phép: <code>docs/art/audio.md</code>.</p>
+<table><tr><th>Âm</th><th>MỚI — thu âm thật</th><th>CŨ — synth</th></tr>
+<tr><td>engine_loop</td><td><audio controls preload="none" src="../../public/assets/audio/engine_loop.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/engine_loop.ogg"></audio></td></tr>
+<tr><td>boost</td><td><audio controls preload="none" src="../../public/assets/audio/boost.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/boost.ogg"></audio></td></tr>
+<tr><td>gun</td><td><audio controls preload="none" src="../../public/assets/audio/gun.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/gun.ogg"></audio></td></tr>
+<tr><td>enemy_gun</td><td><audio controls preload="none" src="../../public/assets/audio/enemy_gun.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/enemy_gun.ogg"></audio></td></tr>
+<tr><td>overheat</td><td><audio controls preload="none" src="../../public/assets/audio/overheat.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/overheat.ogg"></audio></td></tr>
+<tr><td>missile_launch</td><td><audio controls preload="none" src="../../public/assets/audio/missile_launch.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/missile_launch.ogg"></audio></td></tr>
+<tr><td>explosion_large</td><td><audio controls preload="none" src="../../public/assets/audio/explosion_large.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/explosion_large.ogg"></audio></td></tr>
+<tr><td>explosion_small</td><td><audio controls preload="none" src="../../public/assets/audio/explosion_small.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/explosion_small.ogg"></audio></td></tr>
+<tr><td>missile_hit</td><td><audio controls preload="none" src="../../public/assets/audio/missile_hit.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/missile_hit.ogg"></audio></td></tr>
+<tr><td>hit_impact</td><td><audio controls preload="none" src="../../public/assets/audio/hit_impact.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/hit_impact.ogg"></audio></td></tr>
+<tr><td>player_hurt</td><td><audio controls preload="none" src="../../public/assets/audio/player_hurt.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/player_hurt.ogg"></audio></td></tr>
+<tr><td>lock_beep_locking</td><td><audio controls preload="none" src="../../public/assets/audio/lock_beep_locking.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/lock_beep_locking.ogg"></audio></td></tr>
+<tr><td>lock_beep_locked</td><td><audio controls preload="none" src="../../public/assets/audio/lock_beep_locked.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/lock_beep_locked.ogg"></audio></td></tr>
+<tr><td>missile_lock_warning</td><td><audio controls preload="none" src="../../public/assets/audio/missile_lock_warning.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/missile_lock_warning.ogg"></audio></td></tr>
+<tr><td>low_health</td><td><audio controls preload="none" src="../../public/assets/audio/low_health.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/low_health.ogg"></audio></td></tr>
+<tr><td>wave_start</td><td><audio controls preload="none" src="../../public/assets/audio/wave_start.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/wave_start.ogg"></audio></td></tr>
+<tr><td>win</td><td><audio controls preload="none" src="../../public/assets/audio/win.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/win.ogg"></audio></td></tr>
+<tr><td>lose</td><td><audio controls preload="none" src="../../public/assets/audio/lose.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/lose.ogg"></audio></td></tr>
+<tr><td>ui_click</td><td><audio controls preload="none" src="../../public/assets/audio/ui_click.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/ui_click.ogg"></audio></td></tr>
+<tr><td>music_menu</td><td><audio controls preload="none" src="../../public/assets/audio/music_menu.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/music_menu.ogg"></audio></td></tr>
+<tr><td>music_combat</td><td><audio controls preload="none" src="../../public/assets/audio/music_combat.ogg"></audio></td><td><audio controls preload="none" src="https://raw.githubusercontent.com/hungpro2341999/PlaneShooter/asset/audio/public/assets/audio/music_combat.ogg"></audio></td></tr>
+<tr><td>aa_gun_distant (MỚI)</td><td><audio controls preload="none" src="../../public/assets/audio/aa_gun_distant.ogg"></audio></td><td>—</td></tr>
+<tr><td>war_ambience (MỚI)</td><td><audio controls preload="none" src="../../public/assets/audio/war_ambience.ogg"></audio></td><td>—</td></tr>
+</table></body></html>
