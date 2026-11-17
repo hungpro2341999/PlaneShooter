@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { GameFeature } from '../../core/GameFeature';
 import type { GameServices } from '../../core/GameServices';
+import { BoostStateMachine } from './boost';
 
 /**
  * 0002 — Arcade flight control.
@@ -13,9 +14,7 @@ export class FlightFeature implements GameFeature {
   readonly id = '0002-flight';
   private s!: GameServices;
   private targetSpeed = 0;
-  private boostTimeLeft = 0;
-  private boostCooldownLeft = 0;
-  private wasBoostHeld = false;
+  private boost!: BoostStateMachine;
   private euler = new THREE.Euler(0, 0, 0, 'YXZ'); // yaw, pitch, roll
   private forward = new THREE.Vector3();
   private statusTimer = 0;
@@ -24,6 +23,7 @@ export class FlightFeature implements GameFeature {
     this.s = services;
     const f = services.config.flight;
     this.targetSpeed = f.cruiseSpeed;
+    this.boost = new BoostStateMachine(f.boost.duration, f.boost.cooldown);
     const plane = services.player.group;
     if (plane) plane.position.set(0, f.startAltitude, 120);
     this.euler.set(0, 0, 0);
@@ -35,15 +35,8 @@ export class FlightFeature implements GameFeature {
     const f = this.s.config.flight;
     const input = this.s.input;
 
-    // --- Boost state machine: ready -> active (duration) -> cooldown -> ready
-    this.boostCooldownLeft = Math.max(0, this.boostCooldownLeft - dt);
-    if (input.boost && !this.wasBoostHeld && this.boostCooldownLeft <= 0 && this.boostTimeLeft <= 0) {
-      this.boostTimeLeft = f.boost.duration;
-      this.boostCooldownLeft = f.boost.duration + f.boost.cooldown;
-    }
-    this.wasBoostHeld = input.boost;
-    this.boostTimeLeft = Math.max(0, this.boostTimeLeft - dt);
-    const boosting = this.boostTimeLeft > 0;
+    // --- Boost state machine (pure, unit-tested): ready -> active -> cooldown
+    const boosting = this.boost.update(dt, input.boost);
 
     // --- Speed: throttle moves target, actual chases it, always clamped (no stall)
     this.targetSpeed += input.throttle * f.throttleRate * dt;
@@ -58,7 +51,7 @@ export class FlightFeature implements GameFeature {
     const sy = Math.abs(input.steerY) < dz ? 0 : input.steerY;
     this.euler.y -= sx * f.yawRate * dt;
     this.euler.x -= sy * f.pitchRate * dt;
-    this.euler.x = THREE.MathUtils.clamp(this.euler.x, -1.1, 1.1);
+    this.euler.x = THREE.MathUtils.clamp(this.euler.x, -f.maxPitch, f.maxPitch);
 
     const rollInput = input.roll;
     if (rollInput !== 0) this.euler.z -= rollInput * f.rollRate * dt;
@@ -67,7 +60,7 @@ export class FlightFeature implements GameFeature {
     // --- Auto-level: with no roll/pitch input, ease back to level flight
     if (rollInput === 0) this.euler.z = THREE.MathUtils.damp(this.euler.z, 0, f.autoLevelRate * 0.45, dt);
     if (sy === 0) this.euler.x = THREE.MathUtils.damp(this.euler.x, 0, f.autoLevelRate * 0.25, dt);
-    this.euler.z = THREE.MathUtils.clamp(this.euler.z, -1.2, 1.2);
+    this.euler.z = THREE.MathUtils.clamp(this.euler.z, -f.maxRoll, f.maxRoll);
 
     plane.quaternion.setFromEuler(this.euler);
 
@@ -90,10 +83,9 @@ export class FlightFeature implements GameFeature {
     this.statusTimer += dt;
     if (this.statusTimer > 0.1) {
       this.statusTimer = 0;
-      const charge = boosting ? 1 : 1 - Math.max(0, this.boostCooldownLeft - f.boost.duration) / f.boost.cooldown;
       this.s.bus.emit('flight:state', {
         speed: this.s.player.speed, boosting,
-        boostCharge: THREE.MathUtils.clamp(charge, 0, 1),
+        boostCharge: this.boost.charge,
       });
     }
   }
