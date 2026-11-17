@@ -1,58 +1,98 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PlaneShooter — Web 3D</title>
-    <style>
-      html, body { margin: 0; height: 100%; overflow: hidden; background: #87b5d6; font-family: system-ui, sans-serif; }
-      #app { position: fixed; inset: 0; }
-      canvas { display: block; }
-      .hud { position: fixed; z-index: 10; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.55); pointer-events: none; }
-      #fps { top: 10px; left: 12px; font: 600 14px/1.3 ui-monospace, monospace; }
-      #leftHud { top: 34px; left: 12px; font: 600 12px/1.4 ui-monospace, monospace; }
-      .barWrap { width: 170px; height: 9px; background: rgba(255,255,255,.22); border-radius: 4px; overflow: hidden; margin: 2px 0 6px; }
-      .bar { height: 100%; width: 100%; }
-      #healthBar { background: #57d977; }
-      #waveInfo { top: 10px; left: 50%; transform: translateX(-50%); font: 700 15px/1.4 ui-monospace, monospace; text-align: center; }
-      #status { top: 10px; right: 12px; text-align: right; font: 600 13px/1.5 ui-monospace, monospace; }
-      #status .barWrap { margin-left: auto; width: 150px; }
-      #boostBar { background: #ffd34d; }
-      #heatBar { background: #ff9a3d; width: 0%; }
-      #help { left: 12px; bottom: 10px; font-size: 12.5px; line-height: 1.5; opacity: .92; }
-      #crosshair { left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 20px; opacity: .8; }
-      #lockRing { left: 50%; top: 50%; width: 120px; height: 120px; transform: translate(-50%,-50%);
-        border: 2px dashed rgba(255,255,255,.0); border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        font: 700 12px ui-monospace, monospace; color: #ffd34d; transition: border-color .1s; }
-      #gameover { inset: 0; display: none; align-items: center; justify-content: center; background: rgba(8,18,28,.55); pointer-events: auto; }
-      #gameover .box { text-align: center; background: rgba(10,24,36,.85); padding: 28px 44px; border-radius: 12px; }
-      #gameover h1 { margin: 0 0 8px; font-size: 30px; }
-      #gameover p { margin: 0 0 18px; opacity: .9; }
-      #restartBtn { pointer-events: auto; font: 600 15px system-ui; padding: 10px 26px; border: 0; border-radius: 8px; background: #ffd34d; cursor: pointer; }
-    </style>
-  </head>
-  <body>
-    <div id="app"></div>
-    <div class="hud" id="fps">FPS: --</div>
-    <div class="hud" id="leftHud">HP<div class="barWrap"><div class="bar" id="healthBar"></div></div><span id="healthText">100 / 100</span></div>
-    <div class="hud" id="waveInfo">ĐỢT 1/3 • địch còn: - • 05:00</div>
-    <div class="hud" id="status">
-      <span id="spdLine">SPD: --</span><br/>BOOST
-      <div class="barWrap"><div class="bar" id="boostBar"></div></div>
-      NHIỆT SÚNG <span id="heatLabel"></span>
-      <div class="barWrap"><div class="bar" id="heatBar"></div></div>
-      <span id="mslLine">TÊN LỬA: 6 / 6</span>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<title>PLANESHOOTER</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cpath d=%22M16 2l4 12 10 4-10 2-1 8 4 2H9l4-2-1-8-10-2 10-4z%22 fill=%22%2319c3e6%22/%3E%3C/svg%3E" />
+<meta name="theme-color" content="#0b2236" />
+<link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+<canvas id="gl"></canvas>
+<canvas id="hud"></canvas>
+<div id="banner"></div>
+
+<div id="touch" hidden>
+  <div id="stickZone"><div id="stickBase"><div id="stickKnob"></div></div></div>
+  <div id="tbtns">
+    <button id="tFire" class="tb fire">BẮN</button>
+    <button id="tMissile" class="tb missile">TÊN LỬA</button>
+    <button id="tBoost" class="tb boost">BOOST</button>
+    <button id="tThrUp" class="tb thr">GA +</button>
+    <button id="tThrDn" class="tb thr">GA −</button>
+  </div>
+</div>
+<button id="pauseBtn" class="icon" hidden aria-label="Tạm dừng">❚❚</button>
+
+<section id="menu" class="screen show">
+  <div class="logo"><span>PLANE</span>SHOOTER</div>
+  <div class="sub">KHÔNG CHIẾN QUẦN ĐẢO</div>
+  <div class="btns">
+    <button id="startBtn" class="big">START</button>
+    <button id="guideBtn">HƯỚNG DẪN</button>
+  </div>
+  <button id="soundBtn" class="ghost">Âm thanh: BẬT</button>
+  <div class="foot" id="portraitHint">Xoay ngang điện thoại để dễ chơi hơn</div>
+</section>
+
+<section id="guide" class="screen">
+  <div class="panel">
+    <h2>HƯỚNG DẪN</h2>
+    <p class="goal">Bảo vệ <b>căn cứ radar</b> trên đảo lớn. Tiêu diệt toàn bộ 3 đợt địch trong <b>5 phút</b>. Tiêm kích sẽ săn bạn, máy bay ném bom lao thẳng tới căn cứ — ưu tiên hạ chúng!</p>
+    <div class="cols">
+      <div class="desk">
+        <h3>Máy tính</h3>
+        <ul>
+          <li><kbd>Chuột</kbd> lái hướng mũi máy bay</li>
+          <li><kbd>W</kbd>/<kbd>S</kbd> tăng / giảm ga</li>
+          <li><kbd>A</kbd>/<kbd>D</kbd> nghiêng cánh (lượn gắt)</li>
+          <li><kbd>Shift</kbd> boost 2.5s (hồi 5s)</li>
+          <li><kbd>Chuột trái</kbd> súng máy (giữ lâu sẽ quá nhiệt)</li>
+          <li><kbd>Chuột phải</kbd> tên lửa — giữ địch trong vòng ngắm 1.5s để khóa</li>
+          <li><kbd>Esc</kbd> tạm dừng · <kbd>M</kbd> tắt tiếng</li>
+        </ul>
+      </div>
+      <div class="mob">
+        <h3>Điện thoại</h3>
+        <ul>
+          <li>Joystick trái: lái (đẩy lên = ngóc mũi)</li>
+          <li><b>BẮN</b> giữ để bắn súng máy</li>
+          <li><b>TÊN LỬA</b> phóng tên lửa (khóa khi vòng ngắm chuyển đỏ)</li>
+          <li><b>BOOST</b>, <b>GA +</b>, <b>GA −</b></li>
+        </ul>
+      </div>
     </div>
-    <div class="hud" id="lockRing"></div>
-    <div class="hud" id="crosshair">+</div>
-    <div class="hud" id="help">
-      Chuột: lái &nbsp;•&nbsp; W/S: ga &nbsp;•&nbsp; A/D: liệng &nbsp;•&nbsp; Shift: tăng tốc<br/>
-      Chuột trái / RT: súng máy &nbsp;•&nbsp; Giữ địch trong vòng ngắm 1,5s để khóa, chuột phải / LB: bắn tên lửa
+    <p class="tip">Mẹo: chấm tròn xanh trước địch là điểm ngắm đón đầu. Khi có cảnh báo <span class="red">MISSILE LOCK</span>, hãy lượn gắt và boost để né tên lửa.</p>
+    <button id="guideBack">QUAY LẠI</button>
+  </div>
+</section>
+
+<section id="pause" class="screen">
+  <div class="panel small">
+    <h2>TẠM DỪNG</h2>
+    <button id="resumeBtn" class="big">TIẾP TỤC</button>
+    <button id="restartBtn">CHƠI LẠI</button>
+    <button id="soundBtn2" class="ghost">Âm thanh: BẬT</button>
+    <button id="menuBtn" class="ghost">VỀ MENU</button>
+  </div>
+</section>
+
+<section id="result" class="screen">
+  <div class="panel small">
+    <h2 id="resTitle">CHIẾN THẮNG</h2>
+    <div id="resReason" class="reason"></div>
+    <div class="stats">
+      <div><span>Hạ gục</span><b id="rKills">0</b></div>
+      <div><span>Thời gian</span><b id="rTime">0:00</b></div>
+      <div><span>Độ chính xác</span><b id="rAcc">0%</b></div>
+      <div><span>Điểm</span><b id="rScore">0</b></div>
     </div>
-    <div class="hud" id="gameover"><div class="box">
-      <h1 id="goTitle">THẮNG</h1><p id="goDetail"></p>
-      <button id="restartBtn">Chơi lại</button>
-    </div></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    <button id="replayBtn" class="big">CHƠI LẠI</button>
+    <button id="resMenuBtn" class="ghost">VỀ MENU</button>
+  </div>
+</section>
+
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>
