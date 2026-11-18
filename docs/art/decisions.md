@@ -12,3 +12,10 @@
 - PBR: định 1 UV layout dùng chung (top-view: thân giữa, cánh trái/phải, đuôi, bụng) rồi vẽ 2 bộ Albedo/ORM/Normal 2048 theo layout — ta xám xanh, địch nâu sa mạc + đỏ sẫm; ký hiệu hư cấu chevron đôi + mã VX-07, không quân hiệu thật. Albedo lưu JPG q88, ORM WebP q90, Normal PNG (bản PNG gốc 2.2–2.7MB làm push qua proxy đứt liên tục; bản nén còn <700KB, chất lượng đủ cho web).
 - Sketchfab: lọc được 5 ứng viên đạt chuẩn giấy phép (bảng trong sketchfab-shortlist.md); 3 tiêm kích cùng tác giả SIpriv nên style đồng nhất. Chờ token của chủ repo mới tải — token không lưu vào repo.
 - Nổ v2: sửa đúng 3 lỗi review — frame đầu cho cầu lửa bán kính lớn ngay, thêm texture speckle trong puff + mảnh vỡ, 4 frame cuối giữ khói đen đặc (alpha cao) thay vì trống. Flak bản đầu vẽ tia thẳng trông như dấu sao — đã bỏ, thay bằng cụm puff lệch tâm lổn nhổn và tự kiểm trên nền trời xám trước khi chốt.
+
+## ĐÓNG BĂNG asset hình — 18/11/2026
+Chủ repo chốt phân công mới: Muse chỉ làm ÂM THANH; asset hình chuyển sang Gemini. Nhánh asset/realistic giữ nguyên tại trạng thái đã push (HEAD a9fdc70), không làm tiếp. Việc còn dở để lại cho bên hình:
+- 5 model Sketchfab trong docs/art/sketchfab-shortlist.md (Typhoon F2, F-16 Block 70, F-35, Alkyon AB-4, JS Kongo) — chưa tải (chưa có API token), chưa giảm tris/reskin/Draco/KTX2.
+- Bộ PBR 2048 (jet_player_*/jet_enemy_*) chưa gắn lên model nào: model GLB trial vẫn vertex color, chưa unwrap UV theo layout đã định.
+- Chưa làm: căn cứ 2 trạng thái (nguyên vẹn/bị phá), địa hình splatmap, model ném bom/tàu tự dựng, decal riêng.
+- Skybox HDRI + VFX v2 (explosion/contrail/flak) đã xong ở lượt 2.
