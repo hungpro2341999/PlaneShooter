@@ -5,7 +5,7 @@ Game đối kháng 3D anime (1 người vs máy). Nhân vật: **KAI** (kiếm s
 - **21 tên file × 2 định dạng** (OGG + MP3) = 42 file, tất cả **44.1 kHz**.
 - SFX mono, nhạc stereo. Peak chuẩn hoá −1.2 đến −3 dB tuỳ loại, âm lượng đồng đều.
 - `bgm_menu` và `bgm_fight` là **loop nối liền không click** (crossfade ở điểm nối, đã đo độ nhảy biên khi vòng lặp ≈ mức nhiễu nền của chính file).
-- **Tổng dung lượng audio: ~2.8 MB** (giới hạn 8 MB).
+- **Tổng dung lượng audio: ~2.3 MB** (giới hạn 8 MB).
 - Mọi nguồn đều **CC0 hoặc CC-BY** (dùng được thương mại), không NC/ND/SA. Các file CC-BY **bắt buộc ghi công** — xem mục Attribution ở cuối.
 
 ## Tải file qua raw GitHub
